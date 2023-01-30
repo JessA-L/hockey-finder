@@ -1,29 +1,33 @@
 import requests
 import json
 
-# Set the API endpoint and your API key
-endpoint = "https://app.ticketmaster.com/discovery/v2/events.json"
-api_key = "XSsjkkAUauyyZ0nRH5AxLkWXNs3JTLNY"
+# Set the API ENDPOINT and your API key
+ENDPOINT = "https://app.ticketmaster.com/discovery/v2/events.json"
+API_KEY = "XSsjkkAUauyyZ0nRH5AxLkWXNs3JTLNY"
 
-# get user input
-# city = input("City: ")
-zipCode = input("Zip Code: ")
+while True:
+    # get user input from text file
+    infile = open('zip-code.txt', 'r')
+    zipCode = infile.readline()
+    if zipCode.isnumeric():    
+        zipCode = int(zipCode)
 
-# Set the search parameters
-params = {
-    "apikey": api_key,
-    "keyword": "hockey", 
-    # "city": city, 
-    "postalCode": zipCode,
-    "radius": 100,
-    "size": 10,
-}
+        # Set the search parameters
+        params = {
+            "apikey": API_KEY,
+            "keyword": "hockey", 
+            # "city": city, 
+            "postalCode": zipCode,
+            "radius": 100,
+            "size": 10,
+        }
 
-# Make the API call
-response = requests.get(endpoint, params=params)
+        # Make the API call
+        response = requests.get(ENDPOINT, params=params)
 
-# Output the response to a JSON file
-event_list = response.json()
-with open('tm-results.json', 'w') as outfile:
-    json.dump(event_list, outfile)
+        # Output the response to a JSON file
+        event_list = response.json()
+        with open('tm-results.json', 'w') as outfile:
+            json.dump(event_list, outfile)
+        
 
