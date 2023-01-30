@@ -4,23 +4,28 @@ from tkinter import *
 root = Tk()
 
 def myClick():
-    myLabel = Label(root, text="The games are in the command line which is dumb")
-    myLabel.grid(row=2, column=0)
+    getZip = zipEntry.get()
+    print(getZip)
     with open('tm-results.json', 'r') as infile:
         test_data = json.load(infile)
     for i in range(10):
         print(test_data["_embedded"]["events"][i]["name"] + " " + test_data["_embedded"]["events"][i]["dates"]["start"]["localDate"])
-        
+        # result = Label(root, )/
 
 # Create widgets
-myLabel1 = Label(root, text="Hockey Finder")
-myLabel2 = Label(root, text="Zip Code: ")
-myButton = Button(root, text="Search", padx=5, command=myClick)
+title = Label(root, text="Hockey Finder")
+description = Label(root, text="Find a hockey game near you: ")
+zipCode = Label(root, text="Zip Code: ")
+zipEntry = Entry(root, width=10)
+searchButton = Button(root, text="Search", command=myClick, fg="white", bg="darkred")
 
-# Puts it onto the screen
-myLabel1.grid(row=0, column=0)
-myLabel2.grid(row=1, column=0)
-myButton.grid(row=1, column=1)
+
+# Puts widget onto the screen
+title.grid(row=0, column=1)
+description.grid(row=1, column=1)
+zipCode.grid(row=2, column=0)
+zipEntry.grid(row=2, column=1)
+searchButton.grid(row=2, column=2)
 
 
 # Create loop
