@@ -2,28 +2,28 @@ import requests
 import json
 
 # Set the API endpoint and your API key
-endpoint = "https://app.ticketmaster.com/discovery/v2/events.json"
-api_key = "XSsjkkAUauyyZ0nRH5AxLkWXNs3JTLNY"
+ENDPOINT = "events"
+url = f"https://api.seatgeek.com/2/{ENDPOINT}"
+CLIENT_ID = "MzA1MjU0ODZ8MTY3NTA5MDE4MS43OTU5NDI"
+CLIENT_SECRET = "4ceb......."
 
 # get user input
 # city = input("City: ")
-zipCode = input("Zip Code: ")
+# zipCode = input("Zip Code: ")
 
 # Set the search parameters
 params = {
-    "apikey": api_key,
-    "keyword": "hockey", 
-    # "city": city, 
-    "postalCode": zipCode,
-    "radius": 100,
-    "size": 10,
+    "client_id": CLIENT_ID,
+    # "type": "hockey",
+    "postal_code": "10001",
+    # "datetime_utc": "2023-02-08",
 }
 
 # Make the API call
-response = requests.get(endpoint, params=params)
+response = requests.get(url=url, params=params)
 
 # Output the response to a JSON file
 event_list = response.json()
-with open('tm-results.json', 'w') as outfile:
+with open('sg-results.json', 'w') as outfile:
     json.dump(event_list, outfile)
 
