@@ -11,6 +11,9 @@ class gui():
         super().__init__()
     
     def outputResults(self):
+        """
+        Prints results in terminal.
+        """
         with open('tm-results.json', 'r') as infile:
             test_data = json.load(infile)
         for i in range(10):
@@ -35,15 +38,14 @@ class gui():
             with open('zip-code.txt', 'w') as outfile:
                 outfile.write(inputZip)
             
+            # Print results in CLI
             sleep(2)
             self.outputResults()
             
             # Reset program
             with open('zip-code.txt', 'w') as outfile:
                 outfile.write("DONE")
-            with open('zip-code.txt', 'w') as outfile:
-                outfile.write("DONE")
-            
+
         # Create widgets
         root = Tk()
         title = Label(root, text="Hockey Finder")
@@ -52,7 +54,7 @@ class gui():
         zipEntry = Entry(root, width=10)
         searchButton = Button(root, text="Search", command=myClick, fg="white", bg="darkred")
 
-        # Puts widget onto the screen
+        # Put widget onto the screen
         title.grid(row=0, column=1)
         description.grid(row=1, column=1)
         zipCode.grid(row=2, column=0)
