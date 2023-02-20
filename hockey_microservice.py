@@ -48,7 +48,7 @@ while True:
         for event in cheapest:
             print(f'{event["name"]} at {event["priceRanges"][0]["min"]}')
 
-    # updates microservice_results with nested lists of soonest/cheapest events
+    # sends nested lists of soonest and cheapest games
     soonest_cheapest = [soonest, cheapest]
     socket.send_json(soonest_cheapest)
     print("Sending results...")
