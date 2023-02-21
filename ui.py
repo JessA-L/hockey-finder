@@ -23,17 +23,19 @@ class GraphicalUserInterface(object):
             :return: None
             :params: None
             """
-            # get input zip from zipEntry box
-            input_zip = zip_entry.get()
-            print(input_zip)
+            input_city = city_input_box.get()
+            print(input_city)
 
-            # write zipcode to file
             with open('zip-code.txt', 'w') as outfile:
-                outfile.write(input_zip)
+                outfile.write(input_city)
             
             # Print results in CLI
             sleep(2)
             self.output_results()
+            
+            # Print closest and soonest games in CLI
+            print("\nClosest and soonest:")
+            self.get_closest_and_soonest()
             
             # Reset program
             with open('zip-code.txt', 'w') as outfile:
@@ -43,15 +45,15 @@ class GraphicalUserInterface(object):
         root = Tk()
         title = Label(root, text="Hockey Finder")
         description = Label(root, text="Find a hockey game near you: ")
-        zip_code = Label(root, text="Zip Code: ")
-        zip_entry = Entry(root, width=10)
+        city_label = Label(root, text="Zip Code: ")
+        city_input_box = Entry(root, width=10)
         search_button = Button(root, text="Search", command=my_click, fg="white", bg="darkred")
 
         # Put widget onto the screen
         title.grid(row=0, column=1)
         description.grid(row=1, column=1)
-        zip_code.grid(row=2, column=0)
-        zip_entry.grid(row=2, column=1)
+        city_label.grid(row=2, column=0)
+        city_input_box.grid(row=2, column=1)
         search_button.grid(row=2, column=2)
 
         # Create loop
@@ -87,7 +89,6 @@ class GraphicalUserInterface(object):
         # Get the reply
         soonest_cheapest = socket.recv_json()
         print(f"Received reply...")
-
 
         # Example print for the games returned
         soonest = soonest_cheapest[0]
