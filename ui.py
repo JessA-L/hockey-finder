@@ -16,7 +16,7 @@ class GraphicalUserInterface(object):
         """
         Generates gui.
         """
-        def myClick():
+        def my_click():
             """
             Initiates response to search button click.
             Used by ui().
@@ -24,16 +24,16 @@ class GraphicalUserInterface(object):
             :params: None
             """
             # get input zip from zipEntry box
-            inputZip = zipEntry.get()
-            print(inputZip)
+            input_zip = zip_entry.get()
+            print(input_zip)
 
             # write zipcode to file
             with open('zip-code.txt', 'w') as outfile:
-                outfile.write(inputZip)
+                outfile.write(input_zip)
             
             # Print results in CLI
             sleep(2)
-            self.outputResults()
+            self.output_results()
             
             # Reset program
             with open('zip-code.txt', 'w') as outfile:
@@ -43,21 +43,21 @@ class GraphicalUserInterface(object):
         root = Tk()
         title = Label(root, text="Hockey Finder")
         description = Label(root, text="Find a hockey game near you: ")
-        zipCode = Label(root, text="Zip Code: ")
-        zipEntry = Entry(root, width=10)
-        searchButton = Button(root, text="Search", command=myClick, fg="white", bg="darkred")
+        zip_code = Label(root, text="Zip Code: ")
+        zip_entry = Entry(root, width=10)
+        search_button = Button(root, text="Search", command=my_click, fg="white", bg="darkred")
 
         # Put widget onto the screen
         title.grid(row=0, column=1)
         description.grid(row=1, column=1)
-        zipCode.grid(row=2, column=0)
-        zipEntry.grid(row=2, column=1)
-        searchButton.grid(row=2, column=2)
+        zip_code.grid(row=2, column=0)
+        zip_entry.grid(row=2, column=1)
+        search_button.grid(row=2, column=2)
 
         # Create loop
         root.mainloop()
         
-    def outputResults(self) -> None:
+    def output_results(self) -> None:
         """
         Prints results in terminal.
         """
@@ -65,6 +65,41 @@ class GraphicalUserInterface(object):
             test_data = json.load(infile)
         for i in range(10):
             print(test_data["_embedded"]["events"][i]["name"] + " " + test_data["_embedded"]["events"][i]["dates"]["start"]["localDate"])
+
+    def get_closest_and_soonest(self):
+        """
+        Uses microservice to get the closest and soonest hockey games from provided dictionary.
+        """
+        with open('tm-results.json', 'r') as tm_results:
+            event_info = json.load(tm_results)
+
+        context = zmq.Context()
+
+        # socket to talk to server
+        print("Connecting to microservice server...")
+        socket = context.socket(zmq.REQ)
+        socket.connect("tcp://localhost:5555")
+
+        # send request to soonest/cheapest microservice
+        print("Sending request to microservice...")
+        socket.send_json(event_info)
+
+        # Get the reply
+        soonest_cheapest = socket.recv_json()
+        print(f"Received reply...")
+
+
+        # Example print for the games returned
+        soonest = soonest_cheapest[0]
+        cheapest = soonest_cheapest[1]
+        print()
+        print('Soonest games:')
+        for event in soonest:
+            print(f'{event["name"]} at {event["dates"]["start"]["localDate"]}')
+        if cheapest:
+            print('Cheapest games:')
+            for event in cheapest:
+                print(f'{event["name"]} at {event["priceRanges"][0]["min"]}')
 
 widg = GraphicalUserInterface()
 widg.gui()
