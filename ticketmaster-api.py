@@ -10,18 +10,18 @@ API_KEY = "XSsjkkAUauyyZ0nRH5AxLkWXNs3JTLNY"
 while True:
     # get user input from text file
     infile = open('zip-code.txt', 'r')
-    zipCode = infile.readline()
+    city = infile.readline()
     
     # Check for zipcode or "DONE"
-    if zipCode.isnumeric():    
-        zipCode = int(zipCode)
+    # if city.isnumeric():    
+    if city != "DONE":
 
         # Set the search parameters
         params = {
             "apikey": API_KEY,
             "keyword": "hockey", 
-            # "city": city, 
-            "postalCode": zipCode,
+            "city": city, 
+            # "postalCode": zipCode,
             "radius": 100,
             "size": 10,
         }

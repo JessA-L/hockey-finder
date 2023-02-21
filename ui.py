@@ -34,8 +34,8 @@ class GraphicalUserInterface(object):
             self.output_results()
             
             # Print closest and soonest games in CLI
-            print("\nClosest and soonest:")
-            self.get_closest_and_soonest()
+            print("\nCheapest and soonest:")
+            self.get_cheapest_and_soonest()
             
             # Reset program
             with open('zip-code.txt', 'w') as outfile:
@@ -45,7 +45,7 @@ class GraphicalUserInterface(object):
         root = Tk()
         title = Label(root, text="Hockey Finder")
         description = Label(root, text="Find a hockey game near you: ")
-        city_label = Label(root, text="Zip Code: ")
+        city_label = Label(root, text="City: ")
         city_input_box = Entry(root, width=10)
         search_button = Button(root, text="Search", command=my_click, fg="white", bg="darkred")
 
@@ -68,7 +68,7 @@ class GraphicalUserInterface(object):
         for i in range(10):
             print(test_data["_embedded"]["events"][i]["name"] + " " + test_data["_embedded"]["events"][i]["dates"]["start"]["localDate"])
 
-    def get_closest_and_soonest(self):
+    def get_cheapest_and_soonest(self):
         """
         Uses microservice to get the closest and soonest hockey games from provided dictionary.
         """
