@@ -12,7 +12,7 @@ class GraphicalUserInterface(object):
     def __init__(self) -> None:
         super().__init__()
                    
-    def ui(self) -> None:
+    def gui(self) -> None:
         """
         Generates gui.
         """
@@ -66,5 +66,5 @@ class GraphicalUserInterface(object):
         for i in range(10):
             print(test_data["_embedded"]["events"][i]["name"] + " " + test_data["_embedded"]["events"][i]["dates"]["start"]["localDate"])
 
-widg = gui()
-widg.ui()
+widg = GraphicalUserInterface()
+widg.gui()
