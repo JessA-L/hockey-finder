@@ -1,11 +1,7 @@
-# A GUI that receives user input. When input is entered...
-    # UI calls the ticketmaster service
-    # UI displays the search results
-
 import json
 from tkinter import *
 from time import sleep
-import json
+import requests
 import zmq
 
 class GraphicalUserInterface(object):
@@ -26,20 +22,14 @@ class GraphicalUserInterface(object):
             input_city = city_input_box.get()
             print(input_city)
 
-            with open('zip-code.txt', 'w') as outfile:
-                outfile.write(input_city)
-            
+            call_ticketmaster(input_city)
+                        
             # Print results in CLI
-            sleep(2)
             self.output_results()
             
             # Print closest and soonest games in CLI
             print("\nCheapest and soonest:")
             self.get_cheapest_and_soonest()
-            
-            # Reset program
-            with open('zip-code.txt', 'w') as outfile:
-                outfile.write("DONE")
 
         # Create widgets
         root = Tk()
@@ -101,6 +91,28 @@ class GraphicalUserInterface(object):
             print('Cheapest games:')
             for event in cheapest:
                 print(f'{event["name"]} at {event["priceRanges"][0]["min"]}')
+                
+def call_ticketmaster(city): 
+    # Set the API ENDPOINT and API key
+    ENDPOINT = "https://app.ticketmaster.com/discovery/v2/events.json"
+    API_KEY = "XSsjkkAUauyyZ0nRH5AxLkWXNs3JTLNY"
 
+    # Set the search parameters
+    params = {
+        "apikey": API_KEY,
+        "keyword": "hockey", 
+        "city": city, 
+        "radius": 100,
+        "size": 10,
+    }
+
+    # Make the API call
+    response = requests.get(ENDPOINT, params=params)
+
+    # Output the response to a JSON file
+    event_list = response.json()
+    with open('tm-results.json', 'w') as outfile:
+        json.dump(event_list, outfile)
+        
 widg = GraphicalUserInterface()
 widg.gui()
