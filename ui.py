@@ -8,7 +8,7 @@ from time import sleep
 import json
 import zmq
 
-class gui():
+class GraphicalUserInterface(object):
     def __init__(self) -> None:
         super().__init__()
                    
