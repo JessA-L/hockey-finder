@@ -5,19 +5,12 @@
 import json
 from tkinter import *
 from time import sleep
+import json
+import zmq
 
 class gui():
     def __init__(self) -> None:
         super().__init__()
-    
-    def outputResults(self):
-        """
-        Prints results in terminal.
-        """
-        with open('tm-results.json', 'r') as infile:
-            test_data = json.load(infile)
-        for i in range(10):
-            print(test_data["_embedded"]["events"][i]["name"] + " " + test_data["_embedded"]["events"][i]["dates"]["start"]["localDate"])
                    
     def ui(self) -> None:
         """
@@ -63,6 +56,15 @@ class gui():
 
         # Create loop
         root.mainloop()
+        
+    def outputResults(self) -> None:
+        """
+        Prints results in terminal.
+        """
+        with open('tm-results.json', 'r') as infile:
+            test_data = json.load(infile)
+        for i in range(10):
+            print(test_data["_embedded"]["events"][i]["name"] + " " + test_data["_embedded"]["events"][i]["dates"]["start"]["localDate"])
 
 widg = gui()
 widg.ui()
