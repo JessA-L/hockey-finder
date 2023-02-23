@@ -33,6 +33,7 @@ class GraphicalUserInterface(object):
 
         # Create widgets
         root = Tk()
+        root.title("Hockey Finder")
         title = Label(root, text="Hockey Finder")
         description = Label(root, text="Find a hockey game near you: ")
         city_label = Label(root, text="City: ")
