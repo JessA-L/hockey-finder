@@ -9,7 +9,7 @@ bg_color = "#3D6466"
 class GraphicalUserInterface(object):
     def __init__(self) -> None:
         super().__init__()
-                   
+
     def gui(self) -> None:
         """
         Generates gui.
@@ -66,18 +66,18 @@ class GraphicalUserInterface(object):
             font=("TkMenuFont", 14)
             ).pack(pady=5)
         Entry(welcome_frame, 
-              width=10
-              ).pack(pady=5)
+            width=10
+            ).pack(pady=5)
         Button(welcome_frame, 
-               text="Search", 
-               font=("TkHeadingFont", 20),
-                bg="darkred",
-                fg="white",
-                cursor="hand2",
-                activebackground="#BADEE2",
-                activeforeground="black",
-               command=my_click, 
-               ).pack(pady=5)
+            text="Search", 
+            font=("TkHeadingFont", 20),
+            bg="darkred",
+            fg="white",
+            cursor="hand2",
+            activebackground="#BADEE2",
+            activeforeground="black",
+            command=my_click, 
+            ).pack(pady=5)
 
         # Create loop
         root.mainloop()
