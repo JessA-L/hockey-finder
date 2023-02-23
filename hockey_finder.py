@@ -4,6 +4,8 @@ from time import sleep
 import requests
 import zmq
 
+bg_color = "#3D6466"
+
 class GraphicalUserInterface(object):
     def __init__(self) -> None:
         super().__init__()
@@ -31,22 +33,28 @@ class GraphicalUserInterface(object):
             print("\nCheapest and soonest:")
             self.get_cheapest_and_soonest()
 
-        # Create widgets
+        # initiallize app
         root = Tk()
         root.title("Hockey Finder")
         root.eval("tk::PlaceWindow . center")
-        title = Label(root, text="Hockey Finder")
-        description = Label(root, text="Find a hockey game near you: ")
-        city_label = Label(root, text="City: ")
-        city_input_box = Entry(root, width=10)
-        search_button = Button(root, text="Search", command=my_click, fg="white", bg="darkred")
-
-        # Put widget onto the screen
-        title.grid(row=0, column=1)
-        description.grid(row=1, column=1)
-        city_label.grid(row=2, column=0)
-        city_input_box.grid(row=2, column=1)
-        search_button.grid(row=2, column=2)
+        
+        # create a frame widget
+        frame1 = Frame(root, width=500, height=600, bg=bg_color)
+        frame1.grid(row=0, column=0)
+        frame1.pack_propagate(False)
+        
+        # frame1 widgets
+        Label(
+            frame1, 
+            text="Hockey Finder",
+            bg=bg_color,
+            fg="white",
+            font=("TkMenuFont", 14)
+            ).pack()
+        Label(frame1, text="Find a hockey game near you: ").pack()
+        Label(frame1, text="City: ").pack()
+        Entry(frame1, width=10).pack()
+        Button(frame1, text="Search", command=my_click, fg="white", bg="darkred").pack()
 
         # Create loop
         root.mainloop()
