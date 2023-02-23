@@ -39,36 +39,36 @@ class GraphicalUserInterface(object):
         root.eval("tk::PlaceWindow . center")
         
         # create a frame widget
-        frame1 = Frame(root, width=500, height=600, bg=bg_color)
-        frame1.grid(row=0, column=0)
-        frame1.pack_propagate(False)
+        welcome_frame = Frame(root, width=500, height=600, bg=bg_color)
+        welcome_frame.grid(row=0, column=0)
+        welcome_frame.pack_propagate(False)
         
         # frame1 widgets
         Label(
-            frame1, 
+            welcome_frame, 
             text="Hockey Finder",
             bg=bg_color,
             fg="white",
             font=("TkMenuFont", 26)
             ).pack(pady=20)
         Label(
-            frame1, 
+            welcome_frame, 
             text="Find a hockey game near you!",
             bg=bg_color,
             fg="white",
             font=("TkMenuFont", 14)
             ).pack(pady=10)
         Label(
-            frame1, 
+            welcome_frame, 
             text="Input city: ",
             bg=bg_color,
             fg="white",
             font=("TkMenuFont", 14)
             ).pack(pady=5)
-        Entry(frame1, 
+        Entry(welcome_frame, 
               width=10
               ).pack(pady=5)
-        Button(frame1, 
+        Button(welcome_frame, 
                text="Search", 
                font=("TkHeadingFont", 20),
                 bg="darkred",
