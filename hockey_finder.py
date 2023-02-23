@@ -1,5 +1,5 @@
 import json
-from tkinter import *
+import tkinter as tk
 from time import sleep
 import requests
 import zmq
@@ -33,32 +33,32 @@ class GraphicalUserInterface(object):
         welcome_frame.pack_propagate(False)
         
         # frame1 widgets
-        Label(
+        tk.Label(
             welcome_frame, 
             text="Hockey Finder",
             bg=bg_color,
             fg="white",
             font=("TkMenuFont", 26)
             ).pack(pady=20)
-        Label(
+        tk.Label(
             welcome_frame, 
             text="Find a hockey game near you!",
             bg=bg_color,
             fg="white",
             font=("TkMenuFont", 14)
             ).pack(pady=10)
-        Label(
+        tk.Label(
             welcome_frame, 
             text="Input city: ",
             bg=bg_color,
             fg="white",
             font=("TkMenuFont", 14)
             ).pack(pady=5)
-        city_input_box = Entry(welcome_frame, 
+        city_input_box = tk.Entry(welcome_frame, 
             width=10
             )
         city_input_box.pack(pady=5)
-        Button(welcome_frame, 
+        tk.Button(welcome_frame, 
             text="Search", 
             font=("TkHeadingFont", 20),
             bg="darkred",
@@ -73,15 +73,13 @@ class GraphicalUserInterface(object):
         """
         Generates gui.
         """
-        
-
         # initiallize app
-        root = Tk()
+        root = tk.Tk()
         root.title("Hockey Finder")
         root.eval("tk::PlaceWindow . center")
         
         # create a frame widget
-        welcome_frame = Frame(root, width=500, height=600, bg=bg_color)
+        welcome_frame = tk.Frame(root, width=500, height=600, bg=bg_color)
         welcome_frame.grid(row=0, column=0)
         self.load_welcome_frame(welcome_frame)
 
