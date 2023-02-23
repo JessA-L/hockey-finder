@@ -151,5 +151,6 @@ def call_ticketmaster(city):
     with open('tm-results.json', 'w') as outfile:
         json.dump(event_list, outfile)
         
-widg = GraphicalUserInterface()
-widg.gui()
+if __name__ == "__main__":
+    widg = GraphicalUserInterface()
+    widg.gui()
