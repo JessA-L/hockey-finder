@@ -49,12 +49,35 @@ class GraphicalUserInterface(object):
             text="Hockey Finder",
             bg=bg_color,
             fg="white",
+            font=("TkMenuFont", 26)
+            ).pack(pady=20)
+        Label(
+            frame1, 
+            text="Find a hockey game near you!",
+            bg=bg_color,
+            fg="white",
             font=("TkMenuFont", 14)
-            ).pack()
-        Label(frame1, text="Find a hockey game near you: ").pack()
-        Label(frame1, text="City: ").pack()
-        Entry(frame1, width=10).pack()
-        Button(frame1, text="Search", command=my_click, fg="white", bg="darkred").pack()
+            ).pack(pady=10)
+        Label(
+            frame1, 
+            text="Input city: ",
+            bg=bg_color,
+            fg="white",
+            font=("TkMenuFont", 14)
+            ).pack(pady=5)
+        Entry(frame1, 
+              width=10
+              ).pack(pady=5)
+        Button(frame1, 
+               text="Search", 
+               font=("TkHeadingFont", 20),
+                bg="darkred",
+                fg="white",
+                cursor="hand2",
+                activebackground="#BADEE2",
+                activeforeground="black",
+               command=my_click, 
+               ).pack(pady=5)
 
         # Create loop
         root.mainloop()
