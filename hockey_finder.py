@@ -10,10 +10,7 @@ class GraphicalUserInterface(object):
     def __init__(self) -> None:
         super().__init__()
 
-    def gui(self) -> None:
-        """
-        Generates gui.
-        """
+    def load_welcome_frame(self, welcome_frame) -> None:
         def my_click():
             """
             Initiates response to search button click.
@@ -32,15 +29,7 @@ class GraphicalUserInterface(object):
             # Print closest and soonest games in CLI
             print("\nCheapest and soonest:")
             self.get_cheapest_and_soonest()
-
-        # initiallize app
-        root = Tk()
-        root.title("Hockey Finder")
-        root.eval("tk::PlaceWindow . center")
-        
-        # create a frame widget
-        welcome_frame = Frame(root, width=500, height=600, bg=bg_color)
-        welcome_frame.grid(row=0, column=0)
+            
         welcome_frame.pack_propagate(False)
         
         # frame1 widgets
@@ -65,9 +54,10 @@ class GraphicalUserInterface(object):
             fg="white",
             font=("TkMenuFont", 14)
             ).pack(pady=5)
-        Entry(welcome_frame, 
+        city_input_box = Entry(welcome_frame, 
             width=10
-            ).pack(pady=5)
+            )
+        city_input_box.pack(pady=5)
         Button(welcome_frame, 
             text="Search", 
             font=("TkHeadingFont", 20),
@@ -78,6 +68,22 @@ class GraphicalUserInterface(object):
             activeforeground="black",
             command=my_click, 
             ).pack(pady=5)
+    
+    def gui(self) -> None:
+        """
+        Generates gui.
+        """
+        
+
+        # initiallize app
+        root = Tk()
+        root.title("Hockey Finder")
+        root.eval("tk::PlaceWindow . center")
+        
+        # create a frame widget
+        welcome_frame = Frame(root, width=500, height=600, bg=bg_color)
+        welcome_frame.grid(row=0, column=0)
+        self.load_welcome_frame(welcome_frame)
 
         # Create loop
         root.mainloop()
