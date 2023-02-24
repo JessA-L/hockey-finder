@@ -6,27 +6,29 @@ import zmq
 
 bg_color = "#3D6466"
 
-def load_welcome_frame(welcome_frame) -> None:
-    def my_click():
-        """
-        Initiates response to search button click.
-        Used by ui().
-        :return: None
-        :params: None
-        """
-        input_city = city_input_box.get()
-        print(input_city)
+def load_results_frame(results_frame):
+    """
+    Initiates response to search button click.
+    Used by ui().
+    :return: None
+    :params: None
+    """
+    results_frame.tkraise()
 
-        call_ticketmaster(input_city)
-                    
-        # Print results in CLI
-        output_results()
-        
-        # Print closest and soonest games in CLI
-        print("\nCheapest and soonest:")
-        get_cheapest_and_soonest()
-        
-        return input_city
+    input_city = tk.StringVar()
+    input_city.set(city_input_box.get())
+    print(input_city.get())
+
+    call_ticketmaster(input_city.get())
+                
+    # Print results in CLI
+    output_results()
+    
+    # Print closest and soonest games in CLI
+    print("\nCheapest and soonest:")
+    get_cheapest_and_soonest()
+    
+def load_welcome_frame(welcome_frame, results_frame) -> None:
         
     welcome_frame.tkraise()            
     welcome_frame.pack_propagate(False)
@@ -55,7 +57,7 @@ def load_welcome_frame(welcome_frame) -> None:
         fg="white",
         font=("TkMenuFont", 14)
         ) 
-    
+    global city_input_box
     city_input_box = tk.Entry(welcome_frame, 
         width=10
         )
@@ -68,7 +70,7 @@ def load_welcome_frame(welcome_frame) -> None:
         cursor="hand2",
         activebackground="#BADEE2",
         activeforeground="black",
-        command=my_click
+        command=lambda:load_results_frame(results_frame)
         ) 
     
     # Display welcome widgets
@@ -77,9 +79,6 @@ def load_welcome_frame(welcome_frame) -> None:
     city_text.pack(pady=5)
     city_input_box.pack(pady=5)
     search_button.pack(pady=5)
-
-def load_results_frame(results_frame) -> None:
-    results_frame.tkraise()
 
 def gui() -> None:
     """
@@ -97,7 +96,7 @@ def gui() -> None:
     for frame in (welcome_frame, results_frame):
         frame.grid(row=0, column=0)
     
-    load_welcome_frame(welcome_frame)
+    load_welcome_frame(welcome_frame, results_frame)
     
     # Create loop
     root.mainloop()
