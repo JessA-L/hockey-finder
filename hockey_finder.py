@@ -32,33 +32,36 @@ class GraphicalUserInterface(object):
             
         welcome_frame.pack_propagate(False)
         
-        # frame1 widgets
-        tk.Label(
+        # create welcome frame widgets
+        welcome_title = tk.Label(
             welcome_frame, 
             text="Hockey Finder",
             bg=bg_color,
             fg="white",
             font=("TkMenuFont", 26)
-            ).pack(pady=20)
-        tk.Label(
+            )
+        
+        welcome_desc = tk.Label(
             welcome_frame, 
             text="Find a hockey game near you!",
             bg=bg_color,
             fg="white",
             font=("TkMenuFont", 14)
-            ).pack(pady=10)
-        tk.Label(
+            )
+        
+        city_text = tk.Label(
             welcome_frame, 
             text="Input city: ",
             bg=bg_color,
             fg="white",
             font=("TkMenuFont", 14)
-            ).pack(pady=5)
+            ) 
+        
         city_input_box = tk.Entry(welcome_frame, 
             width=10
             )
-        city_input_box.pack(pady=5)
-        tk.Button(welcome_frame, 
+        
+        search_button = tk.Button(welcome_frame, 
             text="Search", 
             font=("TkHeadingFont", 20),
             bg="darkred",
@@ -67,7 +70,17 @@ class GraphicalUserInterface(object):
             activebackground="#BADEE2",
             activeforeground="black",
             command=my_click, 
-            ).pack(pady=5)
+            ) 
+        
+        # Display welcome widgets
+        welcome_title.pack(pady=20)
+        welcome_desc.pack(pady=10)
+        city_text.pack(pady=5)
+        city_input_box.pack(pady=5)
+        search_button.pack(pady=5)
+ 
+    # def load_results_frame() -> None:
+        
     
     def gui(self) -> None:
         """
@@ -80,9 +93,14 @@ class GraphicalUserInterface(object):
         
         # create a frame widget
         welcome_frame = tk.Frame(root, width=500, height=600, bg=bg_color)
+        results_frame = tk.Frame(root, width=500, height=600, bg=bg_color)
+       
+        # for frame in (welcome_frame):
+        #     frame.grid(row=0, column=0)
+        
         welcome_frame.grid(row=0, column=0)
         self.load_welcome_frame(welcome_frame)
-
+        
         # Create loop
         root.mainloop()
         
