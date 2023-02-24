@@ -30,6 +30,9 @@ class GraphicalUserInterface(object):
             print("\nCheapest and soonest:")
             self.get_cheapest_and_soonest()
             
+            return input_city
+            
+        welcome_frame.tkraise()            
         welcome_frame.pack_propagate(False)
         
         # create welcome frame widgets
@@ -69,7 +72,7 @@ class GraphicalUserInterface(object):
             cursor="hand2",
             activebackground="#BADEE2",
             activeforeground="black",
-            command=my_click, 
+            command=my_click
             ) 
         
         # Display welcome widgets
@@ -79,8 +82,8 @@ class GraphicalUserInterface(object):
         city_input_box.pack(pady=5)
         search_button.pack(pady=5)
  
-    # def load_results_frame() -> None:
-        
+    def load_results_frame(self, results_frame) -> None:
+        results_frame.tkraise()
     
     def gui(self) -> None:
         """
@@ -93,12 +96,11 @@ class GraphicalUserInterface(object):
         
         # create a frame widget
         welcome_frame = tk.Frame(root, width=500, height=600, bg=bg_color)
-        results_frame = tk.Frame(root, width=500, height=600, bg=bg_color)
+        results_frame = tk.Frame(root, bg=bg_color)
        
-        # for frame in (welcome_frame):
-        #     frame.grid(row=0, column=0)
+        for frame in (welcome_frame, results_frame):
+            frame.grid(row=0, column=0)
         
-        welcome_frame.grid(row=0, column=0)
         self.load_welcome_frame(welcome_frame)
         
         # Create loop
@@ -146,7 +148,9 @@ class GraphicalUserInterface(object):
             print('Cheapest games:')
             for event in cheapest:
                 print(f'{event["name"]} at {event["priceRanges"][0]["min"]}')
-                
+        
+        return soonest, cheapest
+            
 def call_ticketmaster(city): 
     # Set the API ENDPOINT and API key
     ENDPOINT = "https://app.ticketmaster.com/discovery/v2/events.json"
