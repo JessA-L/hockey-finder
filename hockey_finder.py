@@ -3,8 +3,8 @@ import tkinter as tk
 from time import sleep
 import requests
 import zmq
-
-bg_color = "#3D6466"
+     
+bg_color = "#393e46"
 
 def load_results_frame(results_frame):
     """
@@ -24,9 +24,14 @@ def load_results_frame(results_frame):
     # Print results in CLI
     output_results()
     
-    # Print closest and soonest games in CLI
-    print("\nCheapest and soonest:")
-    get_cheapest_and_soonest()
+    soonest, cheapest = get_cheapest_and_soonest()
+    tk.Label(
+        results_frame,
+        text=f'{soonest[0]["name"]} on {soonest[0]["dates"]["start"]["localDate"]}',
+        bg=bg_color,
+        fg="white",
+        font=("TkMenuFont", 12)
+    ).pack()
     
 def load_welcome_frame(welcome_frame, results_frame) -> None:
         
