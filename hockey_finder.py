@@ -1,6 +1,5 @@
 import json
 import tkinter as tk
-from time import sleep
 import requests
 import zmq
      
@@ -112,34 +111,18 @@ def output_results() -> None:
     """
     with open('tm-results.json', 'r') as infile:
         test_data = json.load(infile)
-    for i in range(10):
+    for i in range(9):
         print(test_data["_embedded"]["events"][i]["name"] + " " + test_data["_embedded"]["events"][i]["dates"]["start"]["localDate"])
-
+        
 def get_cheapest_and_soonest():
     """
-    Uses microservice to get the closest and soonest hockey games from provided dictionary.
+    Connects to hockey microservice using zeroMQ, sends a request containing hockey games, and returns the soonest and cheapest games.
     """
-    with open('tm-results.json', 'r') as tm_results:
-        event_info = json.load(tm_results)
-
-    context = zmq.Context()
-
-    # socket to talk to server
-    print("Connecting to microservice server...")
-    socket = context.socket(zmq.REQ)
-    socket.connect("tcp://localhost:5555")
-
-    # send request to soonest/cheapest microservice
-    print("Sending request to microservice...")
-    socket.send_json(event_info)
-
-    # Get the reply
-    soonest_cheapest = socket.recv_json()
-    print(f"Received reply...")
-
+    socket = connect_to_microservice()
+    reply = microservice_call(socket)
+    soonest, cheapest = reply[0], reply[1]
+    
     # Example print for the games returned
-    soonest = soonest_cheapest[0]
-    cheapest = soonest_cheapest[1]
     print()
     print('Soonest games:')
     for event in soonest:
@@ -150,6 +133,33 @@ def get_cheapest_and_soonest():
             print(f'{event["name"]} at {event["priceRanges"][0]["min"]}')
     
     return soonest, cheapest
+
+def connect_to_microservice():
+
+    context = zmq.Context()
+
+    # socket to talk to server
+    print("Connecting to microservice server...")
+    socket = context.socket(zmq.REQ)
+    socket.connect("tcp://localhost:5555")
+    
+    return socket
+    
+def microservice_call(socket):
+    
+    
+    with open('tm-results.json', 'r') as tm_results:
+        event_info = json.load(tm_results)
+
+    # send request to soonest/cheapest microservice
+    print("Sending request to microservice...")
+    socket.send_json(event_info)
+    
+    # Get the reply
+
+    print(f"Received reply...")
+    return socket.recv_json()
+
             
 def call_ticketmaster(city): 
     # Set the API ENDPOINT and API key
