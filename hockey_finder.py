@@ -119,8 +119,6 @@ def load_results_frame(results_frame):
         font=("TkMenuFont", 12)
     ).pack()
     
-
-    
 def output_results_in_CLI() -> None:
     """
     Prints results in terminal.
