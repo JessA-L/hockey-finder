@@ -5,6 +5,70 @@ import zmq
      
 bg_color = "#393e46"
 
+def load_welcome_frame(welcome_frame, results_frame) -> None:
+    welcome_frame.tkraise()
+    welcome_frame.pack_propagate(False)
+
+    # create welcome frame widgets
+    welcome_frame_widgets(welcome_frame, results_frame)
+
+def display_welcome_title(welcome_frame):
+    welcome_title = tk.Label(
+        welcome_frame,
+        text="Hockey Finder",
+        bg=bg_color,
+        fg="white",
+        font=("TkMenuFont", 26)
+    )
+    welcome_title.pack(pady=20)
+
+def display_welcome_desc(welcome_frame):
+    welcome_desc = tk.Label(
+        welcome_frame,
+        text="Find a hockey game near you!",
+        bg=bg_color,
+        fg="white",
+        font=("TkMenuFont", 14)
+    )
+    welcome_desc.pack(pady=10)
+
+def display_city_text(welcome_frame):
+    city_text = tk.Label(
+        welcome_frame,
+        text="Input city: ",
+        bg=bg_color,
+        fg="white",
+        font=("TkMenuFont", 14)
+    )
+    city_text.pack(pady=5)
+
+def display_city_input_box(welcome_frame):
+    global city_input_box
+    city_input_box = tk.Entry(welcome_frame,
+                              width=10
+                              )
+    city_input_box.pack(pady=5)
+
+def display_search_button(welcome_frame, results_frame):
+    search_button = tk.Button(welcome_frame,
+                              text="Search",
+                              font=("TkHeadingFont", 20),
+                              bg="darkred",
+                              fg="white",
+                              cursor="hand2",
+                              activebackground="#BADEE2",
+                              activeforeground="black",
+                              command=lambda: load_results_frame(results_frame)
+                              )
+    search_button.pack(pady=5)
+
+def welcome_frame_widgets(welcome_frame, results_frame):
+    display_welcome_title(welcome_frame)
+    display_welcome_desc(welcome_frame)
+    display_city_text(welcome_frame)
+    display_city_input_box(welcome_frame)
+    display_search_button(welcome_frame, results_frame)
+
 def load_results_frame(results_frame):
     """
     Initiates response to search button click.
@@ -21,7 +85,7 @@ def load_results_frame(results_frame):
     call_ticketmaster(input_city.get())
                 
     # Print results in CLI
-    output_results()
+    output_results_in_CLI()
 
     # Display soonest game in ui
     soonest, cheapest = get_cheapest_and_soonest()
@@ -34,59 +98,9 @@ def load_results_frame(results_frame):
         font=("TkMenuFont", 12)
     ).pack()
     
-def load_welcome_frame(welcome_frame, results_frame) -> None:
-        
-    welcome_frame.tkraise()            
-    welcome_frame.pack_propagate(False)
+
     
-    # create welcome frame widgets
-    welcome_title = tk.Label(
-        welcome_frame, 
-        text="Hockey Finder",
-        bg=bg_color,
-        fg="white",
-        font=("TkMenuFont", 26)
-        )
-    
-    welcome_desc = tk.Label(
-        welcome_frame, 
-        text="Find a hockey game near you!",
-        bg=bg_color,
-        fg="white",
-        font=("TkMenuFont", 14)
-        )
-    
-    city_text = tk.Label(
-        welcome_frame, 
-        text="Input city: ",
-        bg=bg_color,
-        fg="white",
-        font=("TkMenuFont", 14)
-        ) 
-    global city_input_box
-    city_input_box = tk.Entry(welcome_frame, 
-        width=10
-        )
-    
-    search_button = tk.Button(welcome_frame, 
-        text="Search", 
-        font=("TkHeadingFont", 20),
-        bg="darkred",
-        fg="white",
-        cursor="hand2",
-        activebackground="#BADEE2",
-        activeforeground="black",
-        command=lambda:load_results_frame(results_frame)
-        ) 
-    
-    # Display welcome widgets
-    welcome_title.pack(pady=20)
-    welcome_desc.pack(pady=10)
-    city_text.pack(pady=5)
-    city_input_box.pack(pady=5)
-    search_button.pack(pady=5)
-    
-def output_results() -> None:
+def output_results_in_CLI() -> None:
     """
     Prints results in terminal.
     """
