@@ -5,6 +5,27 @@ import zmq
      
 bg_color = "#393e46"
 
+def gui() -> None:
+    """
+    Generates gui.
+    """
+    # initiallize app
+    root = tk.Tk()
+    root.title("Hockey Finder")
+    root.eval("tk::PlaceWindow . center")
+
+    # create a frame widget
+    welcome_frame = tk.Frame(root, width=500, height=600, bg=bg_color)
+    results_frame = tk.Frame(root, bg=bg_color)
+
+    for frame in (welcome_frame, results_frame):
+        frame.grid(row=0, column=0)
+
+    load_welcome_frame(welcome_frame, results_frame)
+
+    # Create loop
+    root.mainloop()
+
 def load_welcome_frame(welcome_frame, results_frame) -> None:
     welcome_frame.tkraise()
     welcome_frame.pack_propagate(False)
@@ -176,26 +197,7 @@ def call_ticketmaster(city):
     with open('tm-results.json', 'w') as outfile:
         json.dump(event_list, outfile)
 
-def gui() -> None:
-    """
-    Generates gui.
-    """
-    # initiallize app
-    root = tk.Tk()
-    root.title("Hockey Finder")
-    root.eval("tk::PlaceWindow . center")
 
-    # create a frame widget
-    welcome_frame = tk.Frame(root, width=500, height=600, bg=bg_color)
-    results_frame = tk.Frame(root, bg=bg_color)
-
-    for frame in (welcome_frame, results_frame):
-        frame.grid(row=0, column=0)
-
-    load_welcome_frame(welcome_frame, results_frame)
-
-    # Create loop
-    root.mainloop()
         
 if __name__ == "__main__":
     gui()
