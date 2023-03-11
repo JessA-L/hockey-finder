@@ -28,7 +28,7 @@ def load_results_frame(results_frame):
     tk.Label(
         results_frame,
         text=f'Soonest Game: {soonest[0]["name"]} on {soonest[0]["dates"]["start"]["localDate"]}\n'
-             f'Cheapest Game:',
+             f'Cheapest Game: {cheapest[0]["name"]} at {cheapest[0]["priceRanges"][0]["min"]}',
         bg=bg_color,
         fg="white",
         font=("TkMenuFont", 12)
