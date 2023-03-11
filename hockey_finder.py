@@ -22,11 +22,13 @@ def load_results_frame(results_frame):
                 
     # Print results in CLI
     output_results()
-    
+
+    # Display soonest game in ui
     soonest, cheapest = get_cheapest_and_soonest()
     tk.Label(
         results_frame,
-        text=f'{soonest[0]["name"]} on {soonest[0]["dates"]["start"]["localDate"]}',
+        text=f'Soonest Game: {soonest[0]["name"]} on {soonest[0]["dates"]["start"]["localDate"]}\n'
+             f'Cheapest Game:',
         bg=bg_color,
         fg="white",
         font=("TkMenuFont", 12)
@@ -83,27 +85,6 @@ def load_welcome_frame(welcome_frame, results_frame) -> None:
     city_text.pack(pady=5)
     city_input_box.pack(pady=5)
     search_button.pack(pady=5)
-
-def gui() -> None:
-    """
-    Generates gui.
-    """
-    # initiallize app
-    root = tk.Tk()
-    root.title("Hockey Finder")
-    root.eval("tk::PlaceWindow . center")
-    
-    # create a frame widget
-    welcome_frame = tk.Frame(root, width=500, height=600, bg=bg_color)
-    results_frame = tk.Frame(root, bg=bg_color)
-    
-    for frame in (welcome_frame, results_frame):
-        frame.grid(row=0, column=0)
-    
-    load_welcome_frame(welcome_frame, results_frame)
-    
-    # Create loop
-    root.mainloop()
     
 def output_results() -> None:
     """
@@ -146,8 +127,7 @@ def connect_to_microservice():
     return socket
     
 def microservice_call(socket):
-    
-    
+
     with open('tm-results.json', 'r') as tm_results:
         event_info = json.load(tm_results)
 
@@ -160,7 +140,6 @@ def microservice_call(socket):
     print(f"Received reply...")
     return socket.recv_json()
 
-            
 def call_ticketmaster(city): 
     # Set the API ENDPOINT and API key
     ENDPOINT = "https://app.ticketmaster.com/discovery/v2/events.json"
@@ -182,6 +161,27 @@ def call_ticketmaster(city):
     event_list = response.json()
     with open('tm-results.json', 'w') as outfile:
         json.dump(event_list, outfile)
+
+def gui() -> None:
+    """
+    Generates gui.
+    """
+    # initiallize app
+    root = tk.Tk()
+    root.title("Hockey Finder")
+    root.eval("tk::PlaceWindow . center")
+
+    # create a frame widget
+    welcome_frame = tk.Frame(root, width=500, height=600, bg=bg_color)
+    results_frame = tk.Frame(root, bg=bg_color)
+
+    for frame in (welcome_frame, results_frame):
+        frame.grid(row=0, column=0)
+
+    load_welcome_frame(welcome_frame, results_frame)
+
+    # Create loop
+    root.mainloop()
         
 if __name__ == "__main__":
     gui()
