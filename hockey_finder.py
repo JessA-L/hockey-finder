@@ -16,12 +16,12 @@ def gui() -> None:
 
     # create a frame widget
     welcome_frame = tk.Frame(root, width=650, height=650, bg=bg_color)
-    city_results_frame = tk.Frame(root, bg=bg_color)
+    results_frame = tk.Frame(root, bg=bg_color)
 
-    for frame in (welcome_frame, city_results_frame):
+    for frame in (welcome_frame, results_frame):
         frame.grid(row=0, column=0)
 
-    load_welcome_frame(welcome_frame, city_results_frame)
+    load_welcome_frame(welcome_frame, results_frame)
 
     # Create loop
     root.mainloop()
@@ -64,15 +64,28 @@ def display_city_text(welcome_frame):
     )
     city_text.pack(pady=5)
 
+# def display_radio(welcome_frame):
+#     def radio_select():
+#         selection =
+#     var = StringVar()
+#     R1 = tk.Radiobutton(welcome_frame, text="Search by City", variable=var, value=1,
+#                      command=sel)
+#     R1.pack(pady=5)
+#
+#     R2 = tk.Radiobutton(welcome_frame, text="Search by Team", variable=var, value=2,
+#                      command=sel)
+#     R2.pack(pady=5)
+
 def display_city_input_box(welcome_frame):
 
-    global city_input_box
-    city_input_box = tk.Entry(welcome_frame,
-                              width=10
-                              )
-    city_input_box.pack(pady=5)
+    global input_box
+    input_box = tk.Entry(welcome_frame,
+                         width=10
+                         )
+    input_box.pack(pady=5)
 
-def display_city_search_button(welcome_frame, results_frame):
+
+def display_search_button(welcome_frame, results_frame):
 
     search_button = tk.Button(welcome_frame,
                               text="Search",
@@ -92,17 +105,17 @@ def welcome_frame_widgets(welcome_frame, results_frame):
     display_welcome_desc(welcome_frame)
     display_city_text(welcome_frame)
     display_city_input_box(welcome_frame)
-    display_city_search_button(welcome_frame, results_frame)
+    display_search_button(welcome_frame, results_frame)
 
 def load_city_results(results_frame):
 
     results_frame.tkraise()
 
-    input_city = tk.StringVar()
-    input_city.set(city_input_box.get())
-    print(input_city.get())
+    box_input = tk.StringVar()
+    box_input.set(input_box.get())
+    print(box_input.get())
 
-    call_ticketmaster(input_city.get())
+    call_ticketmaster(box_input.get())
                 
     # Print results in CLI
     output_results_in_CLI()
