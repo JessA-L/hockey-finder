@@ -15,13 +15,13 @@ def gui() -> None:
     root.eval("tk::PlaceWindow . center")
 
     # create a frame widget
-    welcome_frame = tk.Frame(root, width=500, height=600, bg=bg_color)
-    results_frame = tk.Frame(root, bg=bg_color)
+    welcome_frame = tk.Frame(root, width=650, height=650, bg=bg_color)
+    city_results_frame = tk.Frame(root, bg=bg_color)
 
-    for frame in (welcome_frame, results_frame):
+    for frame in (welcome_frame, city_results_frame):
         frame.grid(row=0, column=0)
 
-    load_welcome_frame(welcome_frame, results_frame)
+    load_welcome_frame(welcome_frame, city_results_frame)
 
     # Create loop
     root.mainloop()
@@ -54,6 +54,7 @@ def display_welcome_desc(welcome_frame):
     welcome_desc.pack(pady=10)
 
 def display_city_text(welcome_frame):
+
     city_text = tk.Label(
         welcome_frame,
         text="Input city: ",
@@ -64,13 +65,15 @@ def display_city_text(welcome_frame):
     city_text.pack(pady=5)
 
 def display_city_input_box(welcome_frame):
+
     global city_input_box
     city_input_box = tk.Entry(welcome_frame,
                               width=10
                               )
     city_input_box.pack(pady=5)
 
-def display_search_button(welcome_frame, results_frame):
+def display_city_search_button(welcome_frame, results_frame):
+
     search_button = tk.Button(welcome_frame,
                               text="Search",
                               font=("TkHeadingFont", 20),
@@ -79,24 +82,20 @@ def display_search_button(welcome_frame, results_frame):
                               cursor="hand2",
                               activebackground="#BADEE2",
                               activeforeground="black",
-                              command=lambda: load_results_frame(results_frame)
+                              command=lambda: load_city_results(results_frame)
                               )
     search_button.pack(pady=5)
 
 def welcome_frame_widgets(welcome_frame, results_frame):
+
     display_welcome_title(welcome_frame)
     display_welcome_desc(welcome_frame)
     display_city_text(welcome_frame)
     display_city_input_box(welcome_frame)
-    display_search_button(welcome_frame, results_frame)
+    display_city_search_button(welcome_frame, results_frame)
 
-def load_results_frame(results_frame):
-    """
-    Initiates response to search button click.
-    Used by ui().
-    :return: None
-    :params: None
-    """
+def load_city_results(results_frame):
+
     results_frame.tkraise()
 
     input_city = tk.StringVar()
@@ -148,7 +147,6 @@ def get_cheapest_and_soonest():
     
     return soonest, cheapest
 
-
 def call_ticketmaster(city): 
     # Set the API ENDPOINT and API key
     ENDPOINT = "https://app.ticketmaster.com/discovery/v2/events.json"
@@ -171,7 +169,5 @@ def call_ticketmaster(city):
     with open('tm-results.json', 'w') as outfile:
         json.dump(event_list, outfile)
 
-
-        
 if __name__ == "__main__":
     gui()
