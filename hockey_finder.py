@@ -76,7 +76,7 @@ def display_city_text(welcome_frame):
 #                      command=sel)
 #     R2.pack(pady=5)
 
-def display_city_input_box(welcome_frame):
+def display_input_box(welcome_frame):
 
     global input_box
     input_box = tk.Entry(welcome_frame,
@@ -104,18 +104,21 @@ def welcome_frame_widgets(welcome_frame, results_frame):
     display_welcome_title(welcome_frame)
     display_welcome_desc(welcome_frame)
     display_city_text(welcome_frame)
-    display_city_input_box(welcome_frame)
+    display_input_box(welcome_frame)
     display_search_button(welcome_frame, results_frame)
+
+def get_box_input():
+    box_input_var = tk.StringVar()
+    box_input_var.set(input_box.get())
+    box_input = box_input_var.get()
+    print("Box input:", box_input)
+    return box_input
 
 def load_city_results(results_frame):
 
     results_frame.tkraise()
 
-    box_input = tk.StringVar()
-    box_input.set(input_box.get())
-    print(box_input.get())
-
-    call_ticketmaster(box_input.get())
+    call_ticketmaster(get_box_input())
                 
     # Print results in CLI
     output_results_in_CLI()
