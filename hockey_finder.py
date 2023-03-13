@@ -28,14 +28,21 @@ def gui() -> None:
 
 
 def load_welcome_frame(welcome_frame, results_frame) -> None:
+    """
+    Creates and displays welcome frame
+    """
     welcome_frame.tkraise()
     welcome_frame.pack_propagate(False)
 
-    # creates and displays welcome frame widgets
+    # displays welcome frame widgets
     welcome_frame_widgets(welcome_frame, results_frame)
 
 
-def display_welcome_title(welcome_frame):
+def title(welcome_frame):
+    """
+    Create and display title
+    Used by welcome_frame_widgets()
+    """
     welcome_title = tk.Label(
         welcome_frame,
         text="Hockey Finder",
@@ -46,7 +53,11 @@ def display_welcome_title(welcome_frame):
     welcome_title.pack(pady=20)
 
 
-def display_welcome_desc(welcome_frame):
+def description(welcome_frame):
+    """
+    Create and display description
+    Used by welcome_frame_widgets()
+    """
     welcome_desc = tk.Label(
         welcome_frame,
         text="Find a hockey game near you!",
@@ -57,7 +68,11 @@ def display_welcome_desc(welcome_frame):
     welcome_desc.pack(pady=10)
 
 
-def display_city_text(welcome_frame):
+def instructions(welcome_frame):
+    """
+    Create and display instructions
+    Used by welcome_frame_widgets()
+    """
     city_text = tk.Label(
         welcome_frame,
         text="Select either team or city.\n Then, input the name of the team or city you would like to search.",
@@ -68,7 +83,11 @@ def display_city_text(welcome_frame):
     city_text.pack(pady=5)
 
 
-def display_radios(welcome_frame):
+def radio_buttons(welcome_frame):
+    """
+    Create and display radio buttons
+    Used by welcome_frame_widgets()
+    """
     global radio_sel
     radio_sel = tk.StringVar()
     radio_team = tk.Radiobutton(welcome_frame,
@@ -86,12 +105,11 @@ def display_radios(welcome_frame):
     radio_city.pack(pady=5)
 
 
-def get_radio_sel() -> str:
-    radio_selected = radio_sel.get()
-    return radio_selected
-
-
-def display_input_box(welcome_frame) -> None:
+def input_box(welcome_frame) -> None:
+    """
+    Create and display input box
+    Used by welcome_frame_widgets()
+    """
     global input_box
     input_box = tk.Entry(welcome_frame,
                          width=10
@@ -99,7 +117,11 @@ def display_input_box(welcome_frame) -> None:
     input_box.pack(pady=5)
 
 
-def display_search_button(welcome_frame, results_frame) -> None:
+def search_button(welcome_frame, results_frame) -> None:
+    """
+    Create and display search button
+    Used by welcome_frame_widgets()
+    """
     search_button = tk.Button(welcome_frame,
                               text="Search",
                               font=("TkHeadingFont", 20),
@@ -108,22 +130,38 @@ def display_search_button(welcome_frame, results_frame) -> None:
                               cursor="hand2",
                               activebackground="#BADEE2",
                               activeforeground="black",
-                              command=lambda: load_city_results(results_frame)
+                              command=lambda: load_results(results_frame)
                               )
     search_button.pack(pady=5)
 
 
 def welcome_frame_widgets(welcome_frame, results_frame) -> None:
-    """"""
-    display_welcome_title(welcome_frame)
-    display_welcome_desc(welcome_frame)
-    display_city_text(welcome_frame)
-    display_radios(welcome_frame)
-    display_input_box(welcome_frame)
-    display_search_button(welcome_frame, results_frame)
+    """
+    Display widgets on welcome frame
+    Used by load_welcome_frame()
+    """
+    title(welcome_frame)
+    description(welcome_frame)
+    instructions(welcome_frame)
+    radio_buttons(welcome_frame)
+    input_box(welcome_frame)
+    search_button(welcome_frame, results_frame)
+
+
+def get_radio_sel() -> str:
+    """
+    Gets input from radio selection
+    Used by load_results()
+    """
+    radio_selected = radio_sel.get()
+    return radio_selected
 
 
 def get_box_input() -> str:
+    """
+    Gets input from text box.
+    Used by load_results()
+    """
     box_input_var = tk.StringVar()
     box_input_var.set(input_box.get())
     box_input = box_input_var.get()
@@ -131,12 +169,14 @@ def get_box_input() -> str:
     return box_input
 
 
-def load_city_results(results_frame) -> None:
+def load_results(results_frame) -> None:
+    """
+    Creates results frame, calls ticketmaster API, displays cheapest and soonest games in GUI
+    Used by search_button()
+    """
     results_frame.tkraise()
-
     call_ticketmaster(get_radio_sel(), get_box_input())
 
-    # Display soonest game in ui
     soonest, cheapest = get_cheapest_and_soonest()
     tk.Label(
         results_frame,
@@ -148,10 +188,11 @@ def load_city_results(results_frame) -> None:
     ).pack()
 
 
-def get_cheapest_and_soonest():
+def get_cheapest_and_soonest() -> json:
     """
     Connects to hockey microservice using zeroMQ, sends a request containing hockey games,
     and returns the soonest and cheapest games.
+    Used by load_results()
     """
     socket = microservice_connector.connect_to_microservice()
     reply = microservice_connector.microservice_call(socket)
@@ -163,6 +204,7 @@ def get_cheapest_and_soonest():
 def call_ticketmaster(radio_choice, search_input):
     """
     Calls ticketmaster API using user provided search parameters and writes results into a JSON file.
+    Used by load_results()
     """
     endpoint = "https://app.ticketmaster.com/discovery/v2/events.json"
     api_key = "XSsjkkAUauyyZ0nRH5AxLkWXNs3JTLNY"
