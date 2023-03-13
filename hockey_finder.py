@@ -64,17 +64,31 @@ def display_city_text(welcome_frame):
     )
     city_text.pack(pady=5)
 
-# def display_radio(welcome_frame):
-#     def radio_select():
-#         selection =
-#     var = StringVar()
-#     R1 = tk.Radiobutton(welcome_frame, text="Search by City", variable=var, value=1,
-#                      command=sel)
-#     R1.pack(pady=5)
-#
-#     R2 = tk.Radiobutton(welcome_frame, text="Search by Team", variable=var, value=2,
-#                      command=sel)
-#     R2.pack(pady=5)
+def display_radios(welcome_frame):
+
+    global radio_sel
+    radio_sel = tk.StringVar()
+    radio_team = tk.Radiobutton(welcome_frame,
+                                text="Search by Team",
+                                variable=radio_sel,
+                                value="keyword"
+                                # command=lambda: get_radio_sel()
+                                )
+    radio_team.pack(pady=5)
+
+    radio_city = tk.Radiobutton(welcome_frame,
+                                text="Search by City",
+                                variable=radio_sel,
+                                value="city"
+                                # command=lambda: get_radio_sel()
+                                )
+    radio_city.pack(pady=5)
+
+def get_radio_sel():
+    radio_selected = radio_sel.get()
+    print(radio_selected)
+    return radio_selected
+
 
 def display_input_box(welcome_frame):
 
@@ -104,6 +118,7 @@ def welcome_frame_widgets(welcome_frame, results_frame):
     display_welcome_title(welcome_frame)
     display_welcome_desc(welcome_frame)
     display_city_text(welcome_frame)
+    display_radios(welcome_frame)
     display_input_box(welcome_frame)
     display_search_button(welcome_frame, results_frame)
 
@@ -112,13 +127,14 @@ def get_box_input():
     box_input_var.set(input_box.get())
     box_input = box_input_var.get()
     print("Box input:", box_input)
+
     return box_input
 
 def load_city_results(results_frame):
 
     results_frame.tkraise()
 
-    call_ticketmaster(get_box_input())
+    call_ticketmaster(get_radio_sel(), get_box_input())
                 
     # Print results in CLI
     output_results_in_CLI()
@@ -163,7 +179,7 @@ def get_cheapest_and_soonest():
     
     return soonest, cheapest
 
-def call_ticketmaster(city): 
+def call_ticketmaster(radio_sel, search_input):
     # Set the API ENDPOINT and API key
     ENDPOINT = "https://app.ticketmaster.com/discovery/v2/events.json"
     API_KEY = "XSsjkkAUauyyZ0nRH5AxLkWXNs3JTLNY"
@@ -171,8 +187,8 @@ def call_ticketmaster(city):
     # Set the search parameters
     params = {
         "apikey": API_KEY,
-        "keyword": "hockey", 
-        "city": city, 
+        "keyword": "hockey",
+        radio_sel: search_input,
         "radius": 100,
         "size": 10,
     }
